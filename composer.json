@@ -1,0 +1,23 @@
+{
+    "name": "patricia/aquasmart",
+    "description": "AquaSmart — sistem IoT de irigare automata cu apa de ploaie (ESP32 + PHP + Azure MySQL)",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "vlucas/phpdotenv": "^5.6",
+        "guzzlehttp/guzzle": "^7.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "test-db": "php scripts/test_db_connection.php"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

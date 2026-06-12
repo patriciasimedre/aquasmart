@@ -1,0 +1,623 @@
+/* ============================================================
+   AquaSmart — design system
+   Paletă: verde închis 2D4A2B · mediu 4F7942 · deschis 90A955
+           f. deschis ECF39E · alb cald F8F9F4 · text 1A1F1A
+   ============================================================ */
+
+:root {
+    --green-900: #2D4A2B;
+    --green-700: #4F7942;
+    --green-500: #90A955;
+    --green-200: #ECF39E;
+    --bg:        #F8F9F4;
+    --ink:       #1A1F1A;
+
+    --surface:   #FFFFFF;
+    --line:      #E2E6DA;
+    --muted:     #5C6657;
+    --danger:    #B23B3B;
+
+    --radius:    14px;
+    --radius-sm: 9px;
+    --shadow:    0 1px 2px rgba(26, 31, 26, .04), 0 6px 20px rgba(45, 74, 43, .06);
+    --maxw:      1080px;
+
+    --f-head: "Outfit", "Inter", system-ui, sans-serif;
+    --f-body: "Inter", system-ui, -apple-system, sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    font-family: var(--f-body);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3 { font-family: var(--f-head); line-height: 1.25; font-weight: 600; }
+h1 { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); color: var(--green-900); }
+h2 { font-size: 1.15rem; }
+a  { color: var(--green-700); }
+
+.mono  { font-family: var(--f-mono); font-feature-settings: "tnum" 1; }
+.muted { color: var(--muted); }
+.small { font-size: .85rem; }
+.center { text-align: center; }
+
+.wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2rem); }
+
+/* --- Accesibilitate --- */
+.skip-link {
+    position: absolute; left: -999px; top: 0;
+    background: var(--green-900); color: #fff; padding: .6rem 1rem; z-index: 100;
+}
+.skip-link:focus { left: .5rem; top: .5rem; border-radius: var(--radius-sm); }
+
+:focus-visible {
+    outline: 3px solid var(--green-700);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+
+/* --- Header / nav --- */
+.site-header {
+    background: var(--green-900);
+    color: #fff;
+    position: sticky; top: 0; z-index: 50;
+}
+.header-inner { display: flex; align-items: center; gap: 1rem; min-height: 60px; }
+.brand { display: flex; align-items: center; gap: .5rem; color: #fff; text-decoration: none; font-family: var(--f-head); font-weight: 700; font-size: 1.15rem; }
+.brand-leaf { font-size: 1.4rem; }
+.mainnav { display: flex; gap: .25rem; margin-left: auto; flex-wrap: wrap; }
+.navlink {
+    color: #E9EFE2; text-decoration: none; font-size: .92rem;
+    padding: .5rem .8rem; border-radius: 999px; white-space: nowrap;
+    transition: background .15s, color .15s;
+}
+.navlink:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+.navlink.is-active { background: var(--green-500); color: var(--green-900); font-weight: 600; }
+
+.nav-toggle { display: none; background: none; border: 0; cursor: pointer; padding: .5rem; margin-left: auto; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: #fff; margin: 4px 0; border-radius: 2px; }
+
+/* --- Layout pagină --- */
+.page { flex: 1; padding-block: clamp(1.5rem, 4vw, 2.5rem); }
+.page-head { margin-bottom: 1.5rem; }
+.page-head .lead { color: var(--muted); margin-top: .25rem; }
+.center-block { text-align: center; padding-block: 3rem; }
+
+.site-footer { background: var(--green-900); color: #C9D6BD; font-size: .85rem; padding-block: 1rem; }
+.site-footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+
+/* --- Grid & carduri --- */
+.grid { display: grid; gap: 1rem; }
+.grid-dash    { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-control { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.grid-charts  { grid-template-columns: 1fr; }
+.grid-raport  { grid-template-columns: 2fr 1fr; }
+.grid-despre  { grid-template-columns: repeat(2, 1fr); }
+.card-wide { grid-column: 1 / -1; }
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    /* Grid items au min-width: auto -> grow ca sa incapa continutul intrinsec.
+       Asta forteaza overflow orizontal pe pagina cand un copil (ex. arch-svg
+       cu min-width pe mobil sau o tabela lata) e mai lat decat trackul.
+       min-width: 0 lasa cardul sa se micsoreze si scroll-ul ramane pe wrap-ul
+       intern (.table-wrap, .arch-svg-wrap). */
+    min-width: 0;
+}
+.card-title { display: flex; align-items: center; gap: .4rem; margin-bottom: .75rem; }
+.card-foot { margin-top: .6rem; font-size: .85rem; }
+
+.stat { display: flex; flex-direction: column; }
+.stat-value { font-size: 2rem; font-weight: 600; color: var(--green-900); margin-top: .25rem; }
+.stat-value .unit { font-size: 1rem; color: var(--muted); margin-left: .25rem; font-family: var(--f-body); }
+
+.badge {
+    display: inline-block; background: var(--green-200); color: var(--green-900);
+    padding: .2rem .6rem; border-radius: 999px; font-size: .8rem; font-weight: 600;
+}
+.badge-sm { font-size: .72rem; padding: .12rem .45rem; }
+
+/* --- Butoane / form --- */
+.btn {
+    font: inherit; font-weight: 600; cursor: pointer;
+    border: 1px solid transparent; border-radius: var(--radius-sm);
+    padding: .6rem 1.1rem; transition: filter .15s, background .15s;
+}
+.btn-primary { background: var(--green-700); color: #fff; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn-ghost:hover { background: var(--green-200); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+
+.row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-top: 1rem; }
+.form-msg { margin-top: .6rem; font-size: .9rem; min-height: 1.2em; }
+.form-msg.ok  { color: var(--green-700); }
+.form-msg.err { color: var(--danger); }
+
+.select {
+    font: inherit; padding: .5rem .7rem; border: 1px solid var(--line);
+    border-radius: var(--radius-sm); background: #fff;
+}
+
+/* --- Status sistem (dashboard) --- */
+.sysdot { display: inline-flex; align-items: center; gap: .45rem; margin-top: .6rem; font-size: .9rem; }
+.sysdot .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+.sysdot[data-state="online"]  .dot { background: var(--green-500); box-shadow: 0 0 0 4px rgba(144, 169, 85, .25); }
+.sysdot[data-state="offline"] .dot { background: var(--danger); }
+
+/* --- Rezervor --- */
+.reservoir {
+    position: relative; height: 150px; border: 3px solid var(--green-700);
+    border-radius: 0 0 14px 14px; overflow: hidden; background: #F2F5EA; margin-block: .5rem;
+}
+.reservoir-water {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, var(--green-500), var(--green-700));
+    transition: height .8s ease;
+}
+.reservoir-label {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-family: var(--f-mono); font-weight: 600; color: var(--green-900);
+}
+
+/* --- Control: segmented, switch, slider --- */
+.seg { border: 0; }
+.seg legend { font-size: .85rem; color: var(--muted); margin-bottom: .4rem; }
+.seg-opt { display: inline-flex; align-items: center; gap: .3rem; margin-right: 1rem; cursor: pointer; }
+
+.seg-range { display: inline-flex; gap: .4rem; margin-bottom: 1.25rem; }
+.seg-btn {
+    font: inherit; cursor: pointer; background: #fff; border: 1px solid var(--line);
+    padding: .45rem .9rem; border-radius: 999px;
+}
+.seg-btn.is-active { background: var(--green-700); color: #fff; border-color: var(--green-700); }
+
+.switch { display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; margin-block: .75rem; }
+.switch input { position: absolute; opacity: 0; }
+.switch-track {
+    width: 46px; height: 26px; background: var(--line); border-radius: 999px; position: relative;
+    transition: background .15s;
+}
+.switch-track::after {
+    content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
+    background: #fff; border-radius: 50%; transition: transform .18s;
+}
+.switch input:checked + .switch-track { background: var(--green-500); }
+.switch input:checked + .switch-track::after { transform: translateX(20px); }
+.switch input:focus-visible + .switch-track { outline: 3px solid var(--green-700); outline-offset: 2px; }
+
+.slider { margin-block: 1.1rem; }
+.slider label { display: flex; justify-content: space-between; font-weight: 500; margin-bottom: .4rem; }
+.slider input[type="range"] { width: 100%; accent-color: var(--green-700); }
+.slider-val { color: var(--green-900); }
+.next-water { margin-top: 1rem; }
+
+/* --- Charts / tabel --- */
+.chart-box { position: relative; }
+.table-wrap { overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.tbl th, .tbl td { text-align: left; padding: .6rem .75rem; border-bottom: 1px solid var(--line); }
+.tbl th { color: var(--muted); font-weight: 600; }
+.tbl tbody tr:hover { background: var(--bg); }
+
+/* --- Raport --- */
+.report-out { margin-top: 1.25rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.report-meta { display: flex; gap: .6rem; align-items: center; margin-bottom: .75rem; }
+.report-body { white-space: pre-wrap; font-size: .95rem; }
+.report-body h1, .report-body h2 { font-size: 1.05rem; margin: .8rem 0 .3rem; }
+.rec-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+.rec-list li { display: flex; justify-content: space-between; gap: .5rem; align-items: center; font-size: .9rem; }
+
+/* --- Despre --- */
+.kv { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.kv li { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px dashed var(--line); padding-bottom: .35rem; }
+.kv span { color: var(--muted); }
+.arch {
+    font-family: var(--f-mono); font-size: .85rem; background: var(--green-200);
+    color: var(--green-900); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto;
+}
+.author p { line-height: 1.8; }
+
+/* --- Responsive --- */
+@media (max-width: 860px) {
+    .grid-raport, .grid-despre { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .mainnav {
+        position: absolute; left: 0; right: 0; top: 60px; background: var(--green-900);
+        flex-direction: column; gap: 0; padding: .5rem; display: none;
+    }
+    .mainnav.open { display: flex; }
+    .navlink { padding: .75rem 1rem; border-radius: var(--radius-sm); }
+}
+
+/* --- Dark mode (clasa .theme-dark, setata din JS — automat sau manual) --- */
+:root.theme-dark {
+    --bg:        #0E1410;
+    --surface:   #1A211B;
+    --ink:       #E8EBE3;
+    --line:      #2A332C;
+    --muted:     #8A9A86;
+    --green-200: #2F3D26;
+    --shadow:    0 1px 2px rgba(0,0,0,.30), 0 6px 20px rgba(0,0,0,.35);
+}
+.theme-dark .reservoir          { background: #141B15; }
+.theme-dark .seg-btn,
+.theme-dark .select             { background: var(--surface); color: var(--ink); }
+.theme-dark .switch-track       { background: #33402F; }
+.theme-dark .badge              { background: var(--green-700); color: #EAF2E0; }
+.theme-dark .arch               { background: #141B15; color: var(--ink); }
+.theme-dark .tbl tbody tr:hover { background: #141B15; }
+
+/* Buton schimbare tema (header) */
+.theme-toggle {
+    background: transparent; border: 0; color: #fff; cursor: pointer;
+    padding: .45rem .55rem; line-height: 0;
+    border-radius: 999px; transition: background .15s;
+    display: inline-flex; align-items: center;
+}
+.theme-toggle:hover { background: rgba(255, 255, 255, .14); }
+.theme-toggle .theme-ico { display: none; }
+:root:not(.theme-dark) .theme-toggle .theme-ico[data-ico="light"],
+:root.theme-dark        .theme-toggle .theme-ico[data-ico="dark"] { display: inline-flex; }
+
+/* Iconite SVG inline (stil Lucide) — aliniere si spatiere langa text */
+.ic { display: inline-block; vertical-align: -.18em; flex: none; }
+.brand            { gap: .5rem; }
+.navlink          { display: inline-flex; align-items: center; gap: .4rem; }
+.btn              { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; }
+.card-title .ic   { margin-right: .1rem; }
+.seg-btn          { display: inline-flex; align-items: center; gap: .3rem; }
+
+/* --- Bara de status (dashboard) --- */
+.statusbar { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-top: .6rem; }
+.sysdot { font-size: .95rem; font-weight: 600; }
+.sysdot[data-state="stale"] .dot { background: #C9921F; box-shadow: 0 0 0 4px rgba(201,146,31,.22); }
+.btn-sm { padding: .35rem .7rem; font-size: .85rem; }
+
+/* --- Loading skeleton --- */
+.skeleton {
+    display: inline-block; min-width: 2.5ch; min-height: 1em; color: transparent !important;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--line) 25%, var(--green-200) 50%, var(--line) 75%);
+    background-size: 200% 100%; animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* --- Flash la schimbarea unei valori --- */
+.flash { animation: flash .7s ease; border-radius: 4px; }
+@keyframes flash { 0% { background: var(--green-200); } 100% { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } .flash { animation: none; } }
+
+/* --- Tooltip contextual (?) — text via atributul title --- */
+.hint {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 17px; height: 17px; margin-left: .4rem; border-radius: 50%;
+    background: var(--line); color: var(--ink); font-size: .72rem;
+    font-weight: 700; cursor: help; vertical-align: middle; user-select: none;
+}
+
+/* --- Avertizare soft (validare slidere) --- */
+.warn { color: #B5811C; font-size: .82rem; min-height: 1.1em; }
+.theme-dark .warn { color: #E0B057; }
+
+/* --- Tranzitii fine pe carduri --- */
+.card { transition: box-shadow .2s ease; }
+.card:hover { box-shadow: 0 2px 4px rgba(26,31,26,.06), 0 10px 28px rgba(45,74,43,.10); }
+
+/* --- Progres circular SVG (umiditate sol) --- */
+.circ-wrap { display: flex; align-items: center; justify-content: center; padding: .5rem 0; position: relative; }
+.circ-progress { width: 160px; height: 160px; transform: rotate(-90deg); }
+.circ-bg, .circ-val { fill: none; stroke-width: 10; }
+.circ-bg  { stroke: var(--line); }
+.circ-val { stroke: var(--green-700); stroke-linecap: round;
+            stroke-dasharray: 0 999; transition: stroke-dasharray .6s ease, stroke .3s; }
+.circ-val.is-ok   { stroke: var(--green-700); }
+.circ-val.is-warn { stroke: #D8A02B; }
+.circ-val.is-bad  { stroke: var(--danger); }
+.circ-text { position: absolute; inset: 0; display: grid; place-items: center; }
+.circ-text .val { font: 600 2rem/1 var(--f-mono); color: var(--green-900); }
+.theme-dark .circ-text .val { color: var(--green-200); }
+.circ-text .lbl { font-size: .8rem; color: var(--muted); margin-top: .2rem; text-align: center; }
+
+/* --- Stare pompa (pulse cand e ON) --- */
+.pump-state { display: flex; flex-direction: column; align-items: center; gap: .5rem; padding: 1rem 0; }
+.pump-dot {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--line);
+    display: grid; place-items: center; color: var(--muted); font-size: 1.6rem;
+}
+.pump-state.is-on .pump-dot {
+    background: var(--green-500); color: #fff;
+    animation: pump-pulse 1.4s ease-in-out infinite;
+}
+.pump-state.is-on .pump-label { color: var(--green-700); font-weight: 600; }
+/* Comanda refuzata local de ESP32 (rezervor gol, etc.) — vizual rosu calm */
+.pump-state.is-refused .pump-dot { background: #F0D0D0; color: var(--danger); }
+.pump-state.is-refused .pump-label { color: var(--danger); font-weight: 600; font-size: .92rem; text-align: center; }
+.theme-dark .pump-state.is-refused .pump-dot { background: #3A2424; color: #E89090; }
+@keyframes pump-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(144, 169, 85, .45); }
+    50%      { box-shadow: 0 0 0 14px rgba(144, 169, 85, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .pump-state.is-on .pump-dot { animation: none; } }
+.pump-countdown { font-family: var(--f-mono); color: var(--green-900); font-size: 1.1rem; }
+.theme-dark .pump-countdown { color: var(--green-200); }
+
+/* --- Badge-uri colorate (TDS, status, etc.) --- */
+.badge-ok   { background: #C8E0A0; color: #2F4D1C; }
+.badge-warn { background: #F2DC9C; color: #6C4A0A; }
+.badge-bad  { background: #F2B5B5; color: #5C1818; }
+.theme-dark .badge-ok   { background: #2F4D1C; color: #C8E0A0; }
+.theme-dark .badge-warn { background: #6C4A0A; color: #F2DC9C; }
+.theme-dark .badge-bad  { background: #5C1818; color: #F2B5B5; }
+
+/* Indicator out-of-range pe valorile critice */
+.warn-inline { color: #D8A02B; font-weight: 600; margin-left: .3rem; }
+.theme-dark .warn-inline { color: #E8C24E; }
+
+/* --- Carduri grupate dashboard --- */
+.grid-row1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
+.grid-row2 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1rem; }
+.grid-row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
+.grid-row4 { display: block; margin-bottom: 1rem; }
+@media (max-width: 1200px) {
+    .grid-row2 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 980px) {
+    .grid-row1 { grid-template-columns: repeat(2, 1fr); }
+    .grid-row2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-row3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+    .grid-row1, .grid-row2, .grid-row3 { grid-template-columns: 1fr; }
+}
+
+/* --- Card decizie fuzzy (mare, central) --- */
+.fuzzy-card { padding: 1.5rem; }
+.fuzzy-headline {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.fuzzy-decision-text {
+    font: 700 2rem/1.1 var(--f-head); color: var(--green-900);
+    letter-spacing: -.02em;
+}
+.theme-dark .fuzzy-decision-text { color: var(--green-200); }
+.fuzzy-decision-text.is-block { color: var(--danger); }
+.fuzzy-decision-text.is-skip  { color: var(--muted); }
+.fuzzy-explanation { font-size: 1.05rem; color: var(--ink); margin-block: .5rem 1rem; }
+
+.fuzzy-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin-top: .5rem; }
+.fuzzy-table th { text-align: left; padding: .5rem .6rem; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--line); }
+.fuzzy-table td { padding: .5rem .6rem; border-bottom: 1px solid var(--line); }
+.fuzzy-table td.num { font-family: var(--f-mono); text-align: right; }
+.fuzzy-table td.term { font-weight: 600; color: var(--green-700); }
+.theme-dark .fuzzy-table td.term { color: var(--green-500); }
+.fuzzy-rules { margin-top: 1rem; display: flex; flex-direction: column; gap: .3rem; }
+.fuzzy-rules li {
+    display: flex; align-items: center; gap: .5rem; font-size: .88rem;
+    padding: .3rem .55rem; background: var(--green-200); border-radius: 6px;
+}
+.fuzzy-rules li .rid { font-family: var(--f-mono); color: var(--green-900); }
+.fuzzy-rules li .iesire { font-weight: 600; }
+.fuzzy-rules li .taria { margin-left: auto; font-family: var(--f-mono); color: var(--muted); }
+
+/* --- Detalii cilindru nivel --- */
+.reservoir-meta { display: flex; flex-direction: column; align-items: center; gap: .25rem; margin-top: .5rem; }
+.reservoir-meta .cm   { font-family: var(--f-mono); color: var(--green-900); }
+.theme-dark .reservoir-meta .cm { color: var(--green-200); }
+.reservoir-meta .stat { font-size: .85rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+
+/* --- Profile de plante (Control + Despre) --- */
+.profile-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: .75rem; margin-bottom: 1rem;
+}
+.profile-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius);
+    padding: 1rem .85rem; cursor: pointer; text-align: center; position: relative;
+    transition: border-color .15s, background .15s, transform .15s;
+    font: inherit;
+}
+.profile-card:hover { border-color: var(--green-500); transform: translateY(-1px); }
+.profile-card:focus-visible { outline: 3px solid var(--green-700); outline-offset: 2px; }
+.profile-card.is-active { border-color: var(--green-700); background: var(--green-200); }
+/* Iconita SVG centrata in card; .ic e <svg> generat de helper-ul icon() */
+.profile-icon { display: inline-flex; align-items: center; justify-content: center;
+    height: 44px; color: var(--green-700); }
+.profile-icon .ic { width: 36px; height: 36px; }
+.theme-dark .profile-icon { color: var(--green-500); }
+.profile-card.is-active .profile-icon { color: var(--green-900); }
+/* In dark mode, fundalul cardului activ e --green-200 (#2F3D26) — aproape negru.
+   Folosim --green-500 (#90A955) pentru contrast bun, NU --green-200 care s-ar
+   confunda cu fundalul si ar face iconita invizibila. */
+.theme-dark .profile-card.is-active .profile-icon { color: var(--green-500); }
+.profile-name  { font-family: var(--f-head); font-weight: 600; margin-top: .5rem; color: var(--ink); }
+.profile-desc  { font-size: .78rem; color: var(--muted); margin-top: .25rem; line-height: 1.35; min-height: 2.3em; }
+/* Iconita din panoul info (sub gridul de carduri) — aliniere baseline cu textul */
+.profile-info-icon { display: inline-flex; vertical-align: -.35em; margin-right: .35rem;
+    color: var(--green-700); }
+.theme-dark .profile-info-icon { color: var(--green-500); }
+.profile-check {
+    position: absolute; top: .45rem; right: .45rem;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--green-700); color: #fff;
+    display: none; align-items: center; justify-content: center;
+}
+.profile-card.is-active .profile-check { display: inline-flex; }
+.profile-check .ic { margin: 0; }
+
+.profile-info {
+    margin-top: 1rem; padding: .85rem 1rem; background: var(--green-200);
+    border-radius: var(--radius-sm); font-size: .92rem; color: var(--ink);
+}
+.theme-dark .profile-info { background: var(--surface); border: 1px solid var(--line); }
+.profile-info b { color: var(--green-900); }
+.theme-dark .profile-info b { color: var(--green-200); }
+.profile-info .meta {
+    display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem;
+    font-family: var(--f-mono); font-size: .82rem; color: var(--muted);
+}
+
+/* --- Toast (feedback non-blocant) --- */
+.toast {
+    position: fixed; left: 50%; bottom: 1.5rem;
+    transform: translateX(-50%) translateY(140%); opacity: 0;
+    background: var(--green-700); color: #fff;
+    padding: .7rem 1.2rem; border-radius: 999px;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, .22); font-weight: 500; font-size: .95rem;
+    z-index: 1000; pointer-events: none;
+    transition: transform .28s ease, opacity .28s ease;
+    display: inline-flex; align-items: center; gap: .5rem;
+}
+.toast.is-show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.is-err  { background: var(--danger); }
+
+/* --- Tabel comparativ profiluri (Despre) --- */
+.profiles-table { width: 100%; border-collapse: collapse; font-size: .92rem; margin-top: .5rem; }
+.profiles-table th, .profiles-table td { padding: .55rem .7rem; border-bottom: 1px solid var(--line); }
+.profiles-table th { text-align: left; color: var(--muted); font-weight: 600; }
+.profiles-table td.num { font-family: var(--f-mono); text-align: right; }
+/* Coloana cu iconita SVG a profilului — centrare + culoarea brandului */
+.profiles-table td.plant-ic { text-align: center; color: var(--green-700); line-height: 0; padding: .5rem .4rem; }
+.theme-dark .profiles-table td.plant-ic { color: var(--green-500); }
+.profiles-sources { margin-top: 1rem; font-size: .88rem; color: var(--muted); }
+.profiles-sources li { margin-bottom: .3rem; }
+
+/* Tabel intrari fuzzy din pagina Despre (3 coloane: Intrare, Univers, Termeni) */
+.fuzzy-vars { width: 100%; border-collapse: collapse; font-size: .92rem; margin-top: .5rem; }
+.fuzzy-vars th { text-align: left; padding: .45rem .6rem; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--line); }
+.fuzzy-vars td { padding: .4rem .6rem; border-bottom: 1px solid var(--line); }
+.fuzzy-vars tr:last-child td { border-bottom: 0; }
+
+/* --- Diagrama arhitectura (SVG, temabila) --- */
+.arch-svg { width: 100%; height: auto; display: block; }
+.arch-svg .box    { fill: var(--surface); stroke: var(--green-700); stroke-width: 2; }
+.arch-svg .core   { fill: var(--green-700); stroke: var(--green-900); stroke-width: 2; }
+.arch-svg .chip   { fill: var(--green-200); stroke: var(--green-500); stroke-width: 1.5; }
+.arch-svg .lbl    { fill: var(--ink); font: 600 14px var(--f-head); }
+.arch-svg .lbl-i  { fill: #fff; font: 600 14px var(--f-head); }
+.arch-svg .sub    { fill: var(--muted); font: 11px var(--f-body); }
+.arch-svg .flow   { stroke: var(--green-700); stroke-width: 2; fill: none; }
+.arch-svg .flow-l { fill: var(--muted); font: 10px var(--f-mono); }
+.arch-svg .ah     { fill: var(--green-700); }
+
+/* ============================================================
+   Responsive polish — aplicat dupa toate stilurile de baza ca
+   sa suprascrie corect dimensiunile cardurilor / tabelelor.
+   Breakpoint-uri:
+     1024px  — laptop mic / tableta landscape
+      820px  — tableta portrait
+      600px  — telefon landscape
+      400px  — telefon mic portrait
+   ============================================================ */
+@media (max-width: 1024px) {
+    /* Profile plante — 3 coloane sub 1024 */
+    .profile-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 820px) {
+    /* Layout-uri grid pe 2 coloane / 1 coloana */
+    .grid-control { grid-template-columns: 1fr; }
+    .grid-raport, .grid-despre { grid-template-columns: 1fr; }
+    .profile-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Title-uri si stat values: reduce dimensiunea pe ecran mediu */
+    .stat-value { font-size: 1.65rem; }
+    .card { padding: 1rem; }
+
+    /* Bara de status: wrap natural, freshness pe rand nou daca trebuie */
+    .statusbar { gap: .5rem; }
+
+    /* Tabele standard din istoric/raport: font mai mic */
+    .tbl { font-size: .86rem; }
+    .tbl th, .tbl td { padding: .45rem .55rem; }
+
+    /* Tabel profile in Despre: font mai mic, padding redus */
+    .profiles-table { font-size: .85rem; }
+    .profiles-table th, .profiles-table td { padding: .4rem .45rem; }
+
+    /* Tabel intrari fuzzy: font mai mic */
+    .fuzzy-vars { font-size: .85rem; }
+
+    /* Reservoir mai jos pentru a respecta proportia cardului */
+    .reservoir { height: 130px; }
+
+    /* Diagrama arhitectura: scroll orizontal cand nu mai incape */
+    .arch-svg { min-width: 640px; }
+    .arch-svg-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 600px) {
+    /* Header: brand mai mic + nav inchis (folosim nav-toggle de la 720px) */
+    .brand { font-size: 1rem; }
+
+    /* Page head */
+    .page-head { margin-bottom: 1rem; }
+    .page-head .lead { font-size: .92rem; }
+
+    /* Carduri pompa / nivel — mai compacte */
+    .stat-value { font-size: 1.4rem; }
+    .reservoir { height: 110px; }
+    .circ-wrap { max-width: 180px; margin-inline: auto; }
+
+    /* Slider: legend pe rand nou pe ecran ingust */
+    .slider label { flex-wrap: wrap; gap: .25rem; }
+
+    /* Tabele: padding minim + font mic */
+    .tbl { font-size: .78rem; }
+    .tbl th, .tbl td { padding: .35rem .4rem; }
+    .profiles-table { font-size: .75rem; }
+    .profiles-table th, .profiles-table td { padding: .3rem .3rem; }
+    .profiles-table td.plant-ic .ic { width: 18px; height: 18px; }
+    .fuzzy-vars { font-size: .78rem; }
+
+    /* Profile-grid pe 2 coloane chiar si pe mobil — iconitele raman vizibile */
+    .profile-grid { gap: .5rem; }
+    .profile-icon { height: 36px; }
+    .profile-icon .ic { width: 30px; height: 30px; }
+    .profile-card { padding: .75rem .55rem; }
+    .profile-name { font-size: .92rem; margin-top: .35rem; }
+    .profile-desc { font-size: .72rem; min-height: 0; }
+
+    /* Card cu sliderele de praguri — ramane usor de tap */
+    .row { gap: .5rem; }
+    .btn { padding: .55rem .9rem; font-size: .92rem; }
+
+    /* Segment range (istoric) — wrap pe ecran ingust */
+    .seg-range { flex-wrap: wrap; }
+
+    /* Tabel profile in Despre: ascunde coloana cea mai verbal-densa (Specii reprezentative).
+       Restul ramane vizibil — .table-wrap deja permite scroll orizontal cand e nevoie. */
+    .profiles-table th:nth-child(7),
+    .profiles-table td:nth-child(7) { display: none; }
+}
+
+@media (max-width: 400px) {
+    /* Telefoane mici (iPhone SE etc.) — un singur card de profil pe linie */
+    .profile-grid { grid-template-columns: 1fr; }
+    .stat-value { font-size: 1.25rem; }
+
+    /* Diagrama arhitectura: scroll obligatoriu */
+    .arch-svg { min-width: 580px; }
+}
