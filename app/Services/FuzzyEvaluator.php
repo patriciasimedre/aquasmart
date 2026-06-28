@@ -21,6 +21,11 @@ namespace App\Services;
  *             - nivel         ('gol'|'partial'|'plin') — singleton crisp
  *             - tds           (ppm)                  — calitate apa
  *
+ *   Pragul `prag_sol_uscat` (din Setari) muta dinamic centrul flancului USCAT
+ *   in fuzzSol(): default 30% reproduce comportamentul istoric trap(0,0,25,35);
+ *   valori mai mari extind zona "uscat", valori mai mici o restrang. MEDIU si
+ *   UMED raman fixate ca sa nu se rupa regulile pentru sol cu adevarat umed.
+ *
  *   Iesire: durata udare 0..300 s -> snap la {0,15,30,60,120,180,300}.
  *   AND = min, agregare = max, defuzzificare = centroid.
  */
@@ -66,12 +71,22 @@ final class FuzzyEvaluator
 
     // ---- Fuzzificare intrari ---------------------------------------------
 
-    /** @return array{USCAT:float,MEDIU:float,UMED:float} */
-    private function fuzzSol(float $x): array
+    /**
+     * Pragul `prag_sol_uscat` (default 30%) e centrul flancului descrescator al
+     * multimii USCAT: membership = 1.0 sub (prag-5), scade liniar la 0 in (prag+5).
+     * Astfel slider-ul din UI ridica/coboara nivelul la care solul e considerat
+     * "uscat" pentru regulile R1–R10. MEDIU si UMED raman fixate ca sa pastram
+     * semantica: sol > 55% e tot "umed" indiferent de prag.
+     *
+     * @return array{USCAT:float,MEDIU:float,UMED:float}
+     */
+    private function fuzzSol(float $x, float $pragUscat = 30.0): array
     {
-        $x = max(0.0, min(100.0, $x));
+        $x    = max(0.0, min(100.0, $x));
+        $prag = max(10.0, min(55.0, $pragUscat));
+
         return [
-            'USCAT' => self::trap($x, 0, 0, 25, 35),
+            'USCAT' => self::trap($x, 0, 0, max(0.0, $prag - 5.0), $prag + 5.0),
             'MEDIU' => self::tri($x, 28, 50, 62),
             'UMED'  => self::trap($x, 55, 70, 100, 100),
         ];
@@ -250,7 +265,10 @@ final class FuzzyEvaluator
 
         // --- Etapa 2: Mamdani ---
         $mu = [
-            'sol'   => $this->fuzzSol((float) ($in['umiditate_sol'] ?? 40.0)),
+            'sol'   => $this->fuzzSol(
+                (float) ($in['umiditate_sol'] ?? 40.0),
+                (float) ($in['prag_sol_uscat'] ?? 30.0)
+            ),
             'aer'   => $this->fuzzAer((float) ($in['umiditate_aer'] ?? 50.0)),
             'temp'  => $this->fuzzTempAer((float) ($in['temp_aer'] ?? 20.0)),
             'nivel' => $this->fuzzNivel((string) ($in['nivel'] ?? 'partial')),
