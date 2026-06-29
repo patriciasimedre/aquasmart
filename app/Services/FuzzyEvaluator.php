@@ -161,7 +161,7 @@ final class FuzzyEvaluator
             ['if' => [['sol','USCAT'],   ['nivel','PLIN'],    ['aer','RIDICATA']],                       'then' => 'SCURT'],  // R5
             ['if' => [['sol','USCAT'],   ['nivel','PARTIAL'], ['aer','SCAZUTA']],                        'then' => 'MEDIU'],  // R6
             ['if' => [['sol','USCAT'],   ['nivel','PARTIAL'], ['aer','MEDIE']],                          'then' => 'SCURT'],  // R7
-            ['if' => [['sol','USCAT'],   ['nivel','PARTIAL'], ['aer','RIDICATA']],                       'then' => 'SCURT'],  // R8 — sol uscat are prioritate chiar si cu rezervor partial + aer umed (udare scurta minimala)
+            ['if' => [['sol','USCAT'],   ['nivel','PARTIAL'], ['aer','RIDICATA']],                       'then' => 'FARA'],   // R8 — conservare: cu rezervor partial + aer foarte umed, planta pierde putin, asteptam ploaia
             ['if' => [['sol','USCAT'],   ['tds','RAU']],                                                 'then' => 'SCURT'],  // R9
             ['if' => [['sol','USCAT'],   ['tds','RAU'],       ['nivel','PARTIAL']],                      'then' => 'FARA'],   // R10
 
