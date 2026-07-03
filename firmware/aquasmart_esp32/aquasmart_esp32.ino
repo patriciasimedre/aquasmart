@@ -27,8 +27,8 @@
 #include <Adafruit_SSD1306.h>
 
 // ---------------- CONFIG (de editat) ------------------------
-#define WIFI_SSID   "TP-Link_1F2E"
-#define WIFI_PASS   "77831576"
+#define WIFI_SSID   "SSID_TAU"
+#define WIFI_PASS   "PAROLA_TA"
 
 // Local: PC-ul ruleaza  php -S 0.0.0.0:8080 -t public public/index.php
 //        si pui IP-ul LAN al PC-ului (ex: http://192.168.1.20:8080)
@@ -37,7 +37,7 @@
 
 // Gol = fara autentificare (dev). Cand setezi ESP32_API_KEY in
 // .env / Azure, pune AICI exact aceeasi valoare.
-#define API_TOKEN   "51c32925cf1ff9345e12d6c4379c75b594622b559b7d41e5"
+#define API_TOKEN   ""
 
 // Releul:
 //   ACTIVE-LOW  (RELAY_ACTIVE_LOW=1) — IN=LOW -> pompa PORNITA (multe module SongLe/Songhe).
