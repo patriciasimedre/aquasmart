@@ -63,7 +63,7 @@
 // ---------------- PINOUT (conform README1.md) ---------------
 #define PIN_DHT        32      // DHT22 data
 #define PIN_DS18B20     4      // DS18B20 data (pull-up 4.7k)
-#define PIN_TDS        25      // TDS analog — GPIO39 / VN (ADC1, MERGE cu WiFi). Era 25 (ADC2 → mereu 0).
+#define PIN_TDS        39      // TDS analog, pin VN / GPIO39 (ADC1, merge cu Wi-Fi)
 #define PIN_TURB       34      // TS-300B turbiditate analog (ADC1, merge cu WiFi).
                                // Divizor de tensiune 10k+27k pe Vout (TS-300B da 0-4.5V, ADC ESP32 0-3.3V).
 #define PIN_RAIN_DO    14      // senzor ploaie, iesire digitala
@@ -73,9 +73,9 @@
 #define PIN_ECHO       12      // HC-SR04 ultrasonic — ECHO
 #define PIN_OLED_SDA   21
 #define PIN_OLED_SCL   22
-// NOTA: GPIO25 e pe ADC2, care NU functioneaza cu analogRead cat
-// timp WiFi e pornit. Daca TDS iese 0/aiurea, muta firul pe un pin
-// ADC1 (ex. GPIO34) si schimba PIN_TDS in 34. De evitat GPIO33/35.
+// NOTA: senzorii analogici sunt pe ADC1 (GPIO32-39), fiindca ADC2 nu
+// functioneaza cu analogRead cat timp WiFi e pornit. GPIO25 (ADC2) a fost
+// cauza bug-ului "TDS = 0" din prima faza. De evitat GPIO33/35.
 
 #define DHTTYPE DHT22
 DHT dht(PIN_DHT, DHTTYPE);
