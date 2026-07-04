@@ -105,7 +105,7 @@ final class IrrigationDecision
         $durataBruta  = ($appGate === null && !$fuzzy['blocat']) ? (int) $fuzzy['durata'] : 0;
 
         // Plafon dupa profilul activ: fuzzy poate recomanda 180s, dar pentru Cactus
-        // (durata_max=30s) nu vrem niciodata mai mult. Profilul Custom = durata_max
+        // (durata_max=3s) nu vrem niciodata mai mult. Profilul Custom = durata_max
         // explicita aleasa de user (sau 300s = nelimitat).
         $durataFinala = min($durataBruta, $durataMax);
         $ramase = ($minSinceLast !== null) ? max(0, $intervMin - $minSinceLast) : null;

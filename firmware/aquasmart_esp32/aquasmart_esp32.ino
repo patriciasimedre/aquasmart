@@ -87,7 +87,7 @@ Adafruit_SSD1306 oled(128, 64, &Wire, -1);
 const unsigned long T_READINGS  = 30000;   // POST /readings la 30s
 const unsigned long T_COMMANDS  = 5000;    // GET  /commands/next la 5s
 const unsigned long T_HEARTBEAT = 300000;  // POST /heartbeat la 5min
-const unsigned long T_DISPLAY   = 1000;    // refresh OLED + citire senzori
+const unsigned long T_DISPLAY   = 1000;    // citire senzori la 1s
 
 unsigned long lastReadings = 0, lastCommands = 0, lastHeartbeat = 0, lastDisplay = 0;
 
