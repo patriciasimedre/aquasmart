@@ -28,7 +28,7 @@ $plantProfiles = [
     <article class="card">
         <h2 class="card-title"><?= icon('plug') ?> Hardware</h2>
         <ul class="kv">
-            <li><span>MCU</span><b>ESP32 CH340C</b></li>
+            <li><span>MCU</span><b>ESP32-WROOM-32</b></li>
             <li><span>Aer</span><b>DHT22</b></li>
             <li><span>Apă</span><b>DS18B20</b></li>
             <li><span>Sol</span><b>Capacitiv v2.0.0</b></li>
@@ -37,7 +37,6 @@ $plantProfiles = [
             <li><span>Turbiditate</span><b>TS-300B</b></li>
             <li><span>Ploaie</span><b>MH-RD</b></li>
             <li><span>Pompă</span><b>DC 3-6V + releu</b></li>
-            <li><span>Afișaj</span><b>OLED 0.96" I²C</b></li>
         </ul>
     </article>
 
@@ -155,8 +154,7 @@ $plantProfiles = [
             </g>
 
             <rect class="core" x="250" y="150" width="120" height="70" rx="12"></rect>
-            <text class="lbl-i" x="310" y="182" text-anchor="middle">ESP32</text>
-            <text class="lbl-i" x="310" y="202" text-anchor="middle" style="font-size:11px">+ OLED</text>
+            <text class="lbl-i" x="310" y="191" text-anchor="middle">ESP32</text>
 
             <path class="flow" d="M370,185 L432,185" marker-end="url(#ah)"></path>
             <text class="flow-l" x="401" y="178" text-anchor="middle">HTTPS REST</text>
@@ -191,8 +189,8 @@ $plantProfiles = [
 
     <article class="card card-wide author">
         <h2 class="card-title"><?= icon('user') ?> Autor</h2>
-        <p><strong>Patricia Simedre</strong><br>
-        Inginerie în Informatică · Universitatea Politehnica Timișoara<br>
+        <p><strong>Patricia-Teodora Simedre</strong><br>
+        Automatică și Informatică Aplicată · Universitatea Politehnica Timișoara<br>
         Proiect de licență · 2026</p>
     </article>
 
