@@ -124,12 +124,14 @@
 
         <details>
             <summary>Intrări fuzzy &amp; apartenență</summary>
-            <table class="fuzzy-table" id="fuzzyTable">
-                <thead>
-                    <tr><th>Senzor</th><th>Valoare</th><th>Termen activ</th><th class="num">Apartenență</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="table-wrap">
+                <table class="fuzzy-table" id="fuzzyTable">
+                    <thead>
+                        <tr><th>Senzor</th><th>Valoare</th><th>Termen activ</th><th class="num">Apartenență</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </details>
 
         <details>

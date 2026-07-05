@@ -558,7 +558,8 @@ a  { color: var(--green-700); }
     .profiles-table th, .profiles-table td { padding: .4rem .45rem; }
 
     /* Tabel intrari fuzzy: font mai mic */
-    .fuzzy-vars { font-size: .85rem; }
+    .fuzzy-vars, .fuzzy-table { font-size: .85rem; }
+    .fuzzy-table th, .fuzzy-table td { padding: .4rem .45rem; }
 
     /* Reservoir mai jos pentru a respecta proportia cardului */
     .reservoir { height: 130px; }
@@ -590,7 +591,8 @@ a  { color: var(--green-700); }
     .profiles-table { font-size: .75rem; }
     .profiles-table th, .profiles-table td { padding: .3rem .3rem; }
     .profiles-table td.plant-ic .ic { width: 18px; height: 18px; }
-    .fuzzy-vars { font-size: .78rem; }
+    .fuzzy-vars, .fuzzy-table { font-size: .78rem; }
+    .fuzzy-table th, .fuzzy-table td { padding: .35rem .35rem; }
 
     /* Profile-grid pe 2 coloane chiar si pe mobil — iconitele raman vizibile */
     .profile-grid { gap: .5rem; }

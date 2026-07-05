@@ -64,11 +64,13 @@ final class CommandsController extends ApiController
         $ok = Command::acknowledge((int) $id, $refusedReason);
 
         // Eveniment de irigare creat doar daca a fost o udare EXECUTATA cu succes.
+        // Motivul = sursa comenzii (manual din UI / fuzzy din decizia automata),
+        // ca raportul sa numere corect udarile pe categorii.
         if ($ok && ($cmd['tip'] ?? '') === 'udare' && $refusedReason === null) {
             $reading = SensorReading::latest();
             IrrigationEvent::create(
                 (int) ($cmd['durata'] ?? 0),
-                'manual',
+                (string) ($cmd['sursa'] ?? 'manual'),
                 $reading ? SensorReading::nivel($reading['nivel_sus'] ?? null, $reading['nivel_jos'] ?? null) : null,
                 $reading && $reading['temp_aer'] !== null ? (float) $reading['temp_aer'] : null
             );

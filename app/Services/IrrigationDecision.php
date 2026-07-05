@@ -117,7 +117,7 @@ final class IrrigationDecision
                 if (Command::pendingWateringExists()) {
                     $actiune = 'skip_duplicat';
                 } else {
-                    Command::create('udare', $durataFinala);
+                    Command::create('udare', $durataFinala, 'fuzzy');
                     $actiune = 'comanda_emisa';
                 }
             } else {

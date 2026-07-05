@@ -9,17 +9,50 @@ use App\Core\Database;
 /** Coada de comenzi pentru ESP32 (tabelul commands). */
 final class Command
 {
-    /** Emite o comanda (din dashboard). Returneaza randul creat. */
-    public static function create(string $tip, ?int $durata): array
+    /** Cache: exista coloana `sursa`? (migrarea 008 poate sa nu fie aplicata inca) */
+    private static ?bool $hasSursa = null;
+
+    private static function hasSursaColumn(): bool
     {
-        Database::getInstance()->query(
-            'INSERT INTO commands (tip, durata, status) VALUES (:tip, :durata, :st)',
-            [
-                'tip'    => $tip,
-                'durata' => $tip === 'udare' ? $durata : null,
-                'st'     => 'pending',
-            ]
-        );
+        if (self::$hasSursa === null) {
+            self::$hasSursa = (int) Database::getInstance()->query(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS
+                  WHERE TABLE_SCHEMA = DATABASE()
+                    AND TABLE_NAME   = 'commands'
+                    AND COLUMN_NAME  = 'sursa'"
+            )->fetchColumn() > 0;
+        }
+        return self::$hasSursa;
+    }
+
+    /**
+     * Emite o comanda. Returneaza randul creat.
+     * $sursa: 'manual' (din dashboard) sau 'fuzzy' (decizia automata) —
+     * folosita la ack pentru motivul evenimentului de udare.
+     */
+    public static function create(string $tip, ?int $durata, string $sursa = 'manual'): array
+    {
+        if (self::hasSursaColumn()) {
+            Database::getInstance()->query(
+                'INSERT INTO commands (tip, durata, status, sursa) VALUES (:tip, :durata, :st, :sursa)',
+                [
+                    'tip'    => $tip,
+                    'durata' => $tip === 'udare' ? $durata : null,
+                    'st'     => 'pending',
+                    'sursa'  => $sursa,
+                ]
+            );
+        } else {
+            // Fallback pre-migrarea 008: schema veche, fara coloana sursa.
+            Database::getInstance()->query(
+                'INSERT INTO commands (tip, durata, status) VALUES (:tip, :durata, :st)',
+                [
+                    'tip'    => $tip,
+                    'durata' => $tip === 'udare' ? $durata : null,
+                    'st'     => 'pending',
+                ]
+            );
+        }
         $id = (int) Database::getInstance()->lastInsertId();
 
         return self::find($id);
